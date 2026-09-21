@@ -1,0 +1,1 @@
+# rig-state-detector
