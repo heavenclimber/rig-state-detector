@@ -1,0 +1,19 @@
+{
+  "maxDepth": 4062.19,
+  "avgRopDrilling": 6.62,
+  "totalNptHours": 923.5,
+  "totalDrillingMinutes": 591,
+  "totalTrippingMinutes": 645,
+  "totalConnectionMinutes": 1081,
+  "totalStaticMinutes": 3934,
+  "totalCirculatingMinutes": 1079,
+  "totalAlerts": 1077,
+  "criticalAlerts": 149,
+  "warningAlerts": 928,
+  "dateRange": {
+    "start": "9/9/2026 3:00",
+    "end": "9/14/2026 11:00",
+    "startMs": 1788897600000,
+    "endMs": 1789358400000
+  }
+}
