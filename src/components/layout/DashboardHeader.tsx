@@ -1,19 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "@/store/store";
-import { toggleSidebar, toggleAssistant } from "@/store/uiSlice";
+import { toggleSidebar, toggleAssistant, toggleTutorial } from "@/store/uiSlice";
 import { useCurrentMinute } from "@/hooks/useTelemetry";
 import { RIG_STATE_CONFIG } from "@/types";
 import { Activity, Bell, Compass, Radio, ShieldAlert, Sparkles, HelpCircle } from "lucide-react";
-import { UserTutorialModal } from "@/components/dashboard/UserTutorialModal";
 
 export function DashboardHeader() {
   const dispatch = useDispatch<AppDispatch>();
-  const [tutorialOpen, setTutorialOpen] = useState(false);
   const sidebarOpen = useSelector((state: RootState) => state.ui.sidebarOpen);
   const assistantOpen = useSelector((state: RootState) => state.ui.assistantOpen);
+  const tutorialOpen = useSelector((state: RootState) => state.ui.tutorialOpen);
   const currentMinute = useCurrentMinute();
   const alerts = useSelector((state: RootState) => state.telemetry.alerts);
   const criticalCount = alerts.filter((a) => a.severity === "CRITICAL").length;
@@ -97,7 +95,7 @@ export function DashboardHeader() {
           {/* Quick Tour / User Tutorial Trigger */}
           <button
             id="user-tour-header-btn"
-            onClick={() => setTutorialOpen(true)}
+            onClick={() => dispatch(toggleTutorial())}
             className="group relative flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-900/80 px-3 py-2 text-xs font-semibold text-slate-300 hover:border-slate-700 hover:bg-slate-800 hover:text-white transition-all cursor-pointer shadow-sm"
             title="Interactive User Guide & Tutorial"
           >
@@ -165,12 +163,6 @@ export function DashboardHeader() {
           </button>
         </div>
       </div>
-
-      {/* Interactive User Tutorial Modal */}
-      <UserTutorialModal
-        isOpen={tutorialOpen}
-        onClose={() => setTutorialOpen(false)}
-      />
     </header>
   );
 }

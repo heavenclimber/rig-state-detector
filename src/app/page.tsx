@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store/store";
 import { fetchTelemetry } from "@/store/telemetrySlice";
 import { fetchDdr } from "@/store/ddrSlice";
+import { setTutorialOpen } from "@/store/uiSlice";
 import { DashboardHeader } from "@/components/layout/DashboardHeader";
 import { KpiCards } from "@/components/dashboard/KpiCards";
 import { DepthVsTimeChart } from "@/components/dashboard/DepthVsTimeChart";
@@ -14,11 +15,13 @@ import { ParameterOverview } from "@/components/dashboard/ParameterOverview";
 import { AlertsSidebar } from "@/components/layout/AlertsSidebar";
 import { PlaybackControls } from "@/components/dashboard/PlaybackControls";
 import { AiDdrAssistant } from "@/components/assistant/AiDdrAssistant";
+import { UserTutorialModal } from "@/components/dashboard/UserTutorialModal";
 import { AlertCircle, RefreshCw, Info, X, Database, ShieldCheck, Activity } from "lucide-react";
 
 export default function DashboardPage() {
   const dispatch = useDispatch<AppDispatch>();
   const [showMethodology, setShowMethodology] = useState(false);
+  const tutorialOpen = useSelector((state: RootState) => state.ui.tutorialOpen);
   const { loading, error } = useSelector((state: RootState) => state.telemetry);
 
   useEffect(() => {
@@ -231,6 +234,12 @@ export default function DashboardPage() {
           </div>
         </div>
       )}
+
+      {/* 7. Interactive User Guide & Tutorial Modal */}
+      <UserTutorialModal
+        isOpen={tutorialOpen}
+        onClose={() => dispatch(setTutorialOpen(false))}
+      />
     </div>
   );
 }

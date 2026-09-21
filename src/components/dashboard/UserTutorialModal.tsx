@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import {
   HelpCircle,
   X,
@@ -156,14 +157,25 @@ export function UserTutorialModal({
   onClose: () => void;
 }) {
   const [currentStep, setCurrentStep] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isOpen || !mounted) return null;
 
   const step = TUTORIAL_STEPS[currentStep];
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
-      <div className="pertamina-card max-w-2xl w-full rounded-2xl p-6 sm:p-7 shadow-2xl border border-sky-500/40 bg-[#071424] text-slate-100 flex flex-col">
+  return createPortal(
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-[9999] flex min-h-screen w-screen items-center justify-center p-4 bg-black/85 backdrop-blur-md overflow-y-auto animate-fade-in"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="pertamina-card max-w-2xl w-full my-auto rounded-2xl p-6 sm:p-7 shadow-2xl border border-sky-500/40 bg-[#071424] text-slate-100 flex flex-col relative"
+      >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-5">
           <div className="flex items-center gap-3">
@@ -277,6 +289,7 @@ export function UserTutorialModal({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

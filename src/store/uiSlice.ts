@@ -12,6 +12,7 @@ interface UiState {
   selectedAlertId: string | null;
   sidebarOpen: boolean;
   assistantOpen: boolean;
+  tutorialOpen: boolean;
 }
 
 const initialState: UiState = {
@@ -24,6 +25,7 @@ const initialState: UiState = {
   selectedAlertId: null,
   sidebarOpen: false,
   assistantOpen: false,
+  tutorialOpen: false,
 };
 
 export const uiSlice = createSlice({
@@ -57,6 +59,12 @@ export const uiSlice = createSlice({
     setAssistantOpen(state, action: PayloadAction<boolean>) {
       state.assistantOpen = action.payload;
     },
+    toggleTutorial(state) {
+      state.tutorialOpen = !state.tutorialOpen;
+    },
+    setTutorialOpen(state, action: PayloadAction<boolean>) {
+      state.tutorialOpen = action.payload;
+    },
   },
 });
 
@@ -70,4 +78,6 @@ export const {
   setSidebarOpen,
   toggleAssistant,
   setAssistantOpen,
+  toggleTutorial,
+  setTutorialOpen,
 } = uiSlice.actions;
